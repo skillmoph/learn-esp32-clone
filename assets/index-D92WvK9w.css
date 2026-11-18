@@ -18,3 +18,20 @@ img.lesson-thumb[data-thumb="e101"]{content:url("/eletronica-101/e101-thumb.png"
 img.lesson-thumb[data-thumb="e101"]{opacity:1!important}
 
 html:not(.compact) #app{overflow:clip!important}
+
+/* ===== Trilhas e níveis (ESP32 + Eletrônica no mesmo sistema) ===== */
+.lessons{--lv0:#8b1fcc;--lv1:#521179;--lv2:#cc2bef;--lv3:#7fa32b;--lv4:#4f7a14;--lv5:#2f4d0b}
+.level-bar{position:absolute;top:-6px;left:190px;right:64px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+.level-bar::-webkit-scrollbar{display:none}
+.level-chip{flex:none;font:600 11.5px/1 var(--sans);border:1.5px solid var(--line-strong);background:#fff;color:var(--navy);border-radius:999px;padding:6px 10px;cursor:pointer}
+.level-chip.is-on{background:var(--accent);border-color:var(--accent);color:#fff}
+.level-chip:hover{border-color:var(--accent)}
+.level-track{flex:none;font:700 10.5px/1 var(--cond);letter-spacing:.08em;text-transform:uppercase;color:#8a7b9e;margin-left:8px}
+.lesson-lv{position:absolute;bottom:5px;right:12px;font:700 9px/1 var(--cond);letter-spacing:.06em;color:var(--accent)}
+.lesson[data-lv="3"] .lesson-lv,.lesson[data-lv="4"] .lesson-lv,.lesson[data-lv="5"] .lesson-lv{color:#6b8a1f}
+.lesson[data-lv="3"],.lesson[data-lv="4"],.lesson[data-lv="5"]{border-left:4px solid #7fa32b}
+.lesson[data-lv="0"],.lesson[data-lv="1"],.lesson[data-lv="2"]{border-left:4px solid #8b1fcc}
+.fly-group{list-style:none;padding:10px 8px 4px;display:flex;flex-direction:column;gap:1px}
+.fly-group b{font:700 11px/1.2 var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.fly-group[data-lv="3"] b,.fly-group[data-lv="4"] b,.fly-group[data-lv="5"] b{color:#6b8a1f}
+.fly-group small{font-size:11px;color:var(--muted)}

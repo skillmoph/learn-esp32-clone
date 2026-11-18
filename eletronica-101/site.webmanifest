@@ -6,8 +6,8 @@
   "start_url": "/eletronica-101/",
   "scope": "/eletronica-101/",
   "display": "standalone",
-  "background_color": "#f6eddd",
-  "theme_color": "#f6eddd",
+  "background_color": "#330b4f",
+  "theme_color": "#330b4f",
   "categories": [
     "education"
   ],
