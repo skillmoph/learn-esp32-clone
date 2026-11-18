@@ -16,3 +16,5 @@ a:focus-visible,button:focus-visible{outline-color:#8b1fcc}
 img.lesson-thumb[data-thumb="e101"]{content:url("/eletronica-101/e101-thumb.png");background:#f6eddd}
 
 img.lesson-thumb[data-thumb="e101"]{opacity:1!important}
+
+html:not(.compact) #app{overflow:clip!important}
