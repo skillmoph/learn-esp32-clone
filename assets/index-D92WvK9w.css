@@ -13,4 +13,4 @@ header.brand .brand-logo.academe{width:auto;height:46px}
 html.compact header.brand .brand-logo.academe{width:auto;height:30px}
 .brand-text p{color:#8a7b9e}
 a:focus-visible,button:focus-visible{outline-color:#8b1fcc}
-.side-nav li:nth-child(7){top:560px}
+img.lesson-thumb[data-thumb="e101"]{content:url("/eletronica-101/e101-thumb.png");background:#f6eddd}
