@@ -1,12 +1,12 @@
 {
-  "name": "Learn ESP32 — interactive 3D lessons",
-  "short_name": "Learn ESP32",
-  "description": "Wire up LEDs, buttons, touch keys, sensors, motors, servos and a stepper on a 3D ESP32, talk to it over Wi-Fi, Bluetooth and ESP-NOW, then run the code and watch it work.",
+  "name": "ESP32 Interativo — Academe Educação",
+  "short_name": "ESP32 Interativo",
+  "description": "20 lições 3D interativas de ESP32: eletrônica, Wi-Fi, Bluetooth e código rodando de verdade. Por Academe Educação.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#f8f1e6",
-  "theme_color": "#f8f1e6",
+  "background_color": "#330b4f",
+  "theme_color": "#330b4f",
   "categories": ["education"],
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
