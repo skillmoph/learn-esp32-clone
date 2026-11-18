@@ -1,5 +1,16 @@
 {
   "rewrites": [
-    { "source": "/eletronica-101/:path*", "destination": "/eletronica-101/index.html" }
+    {
+      "source": "/robolab",
+      "destination": "/robolab/index.html"
+    },
+    {
+      "source": "/robolab/app",
+      "destination": "/robolab/app.html"
+    },
+    {
+      "source": "/eletronica-101/:path*",
+      "destination": "/eletronica-101/index.html"
+    }
   ]
 }

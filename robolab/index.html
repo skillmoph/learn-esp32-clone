@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoboLab Academe — Oficina de Robôs 3D</title>
+<meta name="description" content="Projete, monte, ligue os fios e programe seu robô em 3D. Grátis, direto no navegador. Uma ferramenta Academe Educação.">
+<link rel="icon" href="/robolab/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --roxo:#892CDD; --roxo-escuro:#5a1b9e; --ink:#160232; --branco:#FFFFFF;
+  --cinza:#6b6280; --bg-soft:#f6f2fc; --borda:#e7dff5;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;color:var(--ink);background:var(--branco);line-height:1.6}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;line-height:1.15}
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--borda)}
+nav .container{display:flex;align-items:center;gap:28px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Sora';font-weight:800;font-size:19px;color:var(--ink);text-decoration:none}
+.brand img{width:34px;height:34px;border-radius:9px}
+.brand small{font-family:'Poppins';font-weight:500;font-size:11px;color:var(--roxo);border:1px solid var(--borda);border-radius:20px;padding:2px 9px;margin-left:2px}
+nav .links{display:flex;gap:24px;margin-left:auto}
+nav .links a{color:var(--cinza);text-decoration:none;font-size:14px;font-weight:500}
+nav .links a:hover{color:var(--roxo)}
+.btn{display:inline-block;background:var(--roxo);color:#fff;border:none;border-radius:12px;padding:12px 26px;font-family:'Sora';font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--roxo-escuro);transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:var(--roxo);border:2px solid var(--roxo)}
+.btn.big{padding:16px 34px;font-size:17px}
+/* HERO */
+.hero{padding:96px 0 72px;background:radial-gradient(900px 420px at 80% -10%,rgba(137,44,221,.12),transparent),var(--branco)}
+.hero .tag{display:inline-block;background:var(--bg-soft);border:1px solid var(--borda);color:var(--roxo);border-radius:30px;padding:6px 16px;font-size:13px;font-weight:600;margin-bottom:22px}
+.hero h1{font-size:56px;font-weight:800;letter-spacing:-.02em;max-width:16ch}
+.hero h1 em{font-style:normal;color:var(--roxo)}
+.hero p{font-size:19px;color:var(--cinza);margin:20px 0 32px;max-width:52ch}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+/* STEPS */
+section{padding:84px 0}
+.section-label{color:var(--roxo);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-family:'Sora'}
+.section-title{font-size:38px;font-weight:800;margin:10px 0 14px;letter-spacing:-.01em}
+.section-sub{color:var(--cinza);font-size:17px;max-width:60ch}
+.steps{margin-top:52px;display:grid;gap:22px}
+.step{display:grid;grid-template-columns:110px 1fr;gap:26px;background:var(--bg-soft);border:1px solid var(--borda);border-radius:20px;padding:30px}
+.step .num{font-family:'Sora';font-weight:800;font-size:15px;color:var(--roxo)}
+.step .num span{display:block;font-size:12px;color:var(--cinza);font-weight:600;letter-spacing:.08em;margin-bottom:6px}
+.step h3{font-size:24px;margin-bottom:8px}
+.step p{color:var(--cinza);font-size:15.5px;max-width:64ch}
+.step .chips{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:#fff;border:1px solid var(--borda);border-radius:9px;padding:4px 11px;font-size:12.5px;font-weight:500;color:var(--ink)}
+/* FEATURES */
+.features-grid{margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.fcard{border:1px solid var(--borda);border-radius:20px;padding:28px;background:#fff;transition:.15s}
+.fcard:hover{border-color:var(--roxo);box-shadow:0 12px 34px rgba(137,44,221,.10)}
+.fcard .ico{width:46px;height:46px;border-radius:13px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+.fcard h3{font-size:19px;margin-bottom:8px}
+.fcard p{color:var(--cinza);font-size:14.5px}
+/* PROJECTS */
+.projects-grid{margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.pcard{border:1px solid var(--borda);border-radius:16px;padding:20px;background:linear-gradient(160deg,#fff, var(--bg-soft))}
+.pcard .emoji{font-size:26px}
+.pcard h4{margin:10px 0 4px;font-size:16px}
+.pcard p{color:var(--cinza);font-size:13px}
+.pcard a{display:inline-block;margin-top:12px;color:var(--roxo);font-weight:600;font-size:13.5px;text-decoration:none}
+.pcard a:hover{text-decoration:underline}
+/* WHATSNEW */
+.whatsnew{background:var(--ink);color:#fff}
+.whatsnew .section-title{color:#fff}
+.whatsnew .section-sub{color:#b9a8d9}
+.roadmap{margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.rcard{border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:26px;background:rgba(255,255,255,.04)}
+.rcard .ver{font-family:'JetBrains Mono';color:#c9a6ff;font-size:13px}
+.rcard h3{margin:10px 0 8px;color:#fff;font-size:20px}
+.rcard p{color:#b9a8d9;font-size:14px}
+.badge-soon{display:inline-block;background:var(--roxo);color:#fff;font-size:11px;font-weight:700;border-radius:20px;padding:3px 11px;margin-left:8px;vertical-align:middle}
+/* FAQ */
+.faq-item{border:1px solid var(--borda);border-radius:14px;margin-top:12px;overflow:hidden}
+.faq-item summary{cursor:pointer;padding:18px 22px;font-family:'Sora';font-weight:600;font-size:15.5px;list-style:none}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';float:right;color:var(--roxo);font-weight:700}
+.faq-item[open] summary::after{content:'–'}
+.faq-item p{padding:0 22px 18px;color:var(--cinza);font-size:14.5px}
+/* CTA FINAL */
+.final{background:linear-gradient(135deg,var(--roxo),var(--roxo-escuro));color:#fff;text-align:center;border-radius:28px;padding:72px 32px;margin:0 0 84px}
+.final h2{font-size:40px;font-weight:800;color:#fff}
+.final p{color:#e6d8fb;margin:16px auto 30px;max-width:46ch}
+/* FOOTER */
+footer{border-top:1px solid var(--borda);padding:44px 0;color:var(--cinza);font-size:13.5px}
+footer .container{display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
+footer .col{display:flex;flex-direction:column;gap:8px;min-width:150px}
+footer .col b{font-family:'Sora';color:var(--ink);font-size:13px;margin-bottom:4px}
+footer a{color:var(--cinza);text-decoration:none}
+footer a:hover{color:var(--roxo)}
+footer .base{width:100%;margin-top:26px;padding-top:20px;border-top:1px solid var(--borda);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media(max-width:760px){
+  .hero h1{font-size:38px}
+  .step{grid-template-columns:1fr}
+  nav .links{display:none}
+  .section-title{font-size:29px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a class="brand" href="/robolab"><img src="/robolab/assets/favicon.svg" alt="Academe">RoboLab<small>por Academe Educação</small></a>
+    <div class="links">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#novidades">Novidades</a>
+      <a href="#faq">FAQ</a>
+      <a href="/">Todas as lições</a>
+    </div>
+    <a class="btn" href="/robolab/app">Abrir a oficina</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="tag">🤖 Grátis · direto no navegador · sem instalação</span>
+    <h1>Aquele robô na sua cabeça? <em>Monte ele aqui.</em></h1>
+    <p>Dê pernas. Dê rodas. Dê sensores. Projete o corpo, ligue a eletrônica e escreva o código do seu robô em 3D — depois aperte Run e veja ele andar.</p>
+    <div class="cta">
+      <a class="btn big" href="/robolab/app">Começar a construir</a>
+      <a class="btn big ghost" href="#como-funciona">Ver como funciona</a>
+    </div>
+  </div>
+</header>
+
+<section id="como-funciona">
+  <div class="container">
+    <span class="section-label">Como funciona</span>
+    <h2 class="section-title">Tudo o que você precisa para construir, em um só lugar.</h2>
+    <p class="section-sub">Modele o chassi, conecte a eletrônica e escreva o código. Depois aperte Run e veja seu robô se mover.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="num"><span>01 / CAD</span></div>
+        <div>
+          <h3>Modele.</h3>
+          <p>Desenhe o chassi, solte motores e rodas e encaixe tudo em uma bancada 3D de verdade. Cada peça tem medida, então o que você monta aqui é o que montaria na sua mesa.</p>
+          <div class="chips"><span class="chip">Mover</span><span class="chip">Rotacionar</span><span class="chip">Escalar</span><span class="chip">Extrudar</span><span class="chip">Cortar</span><span class="chip">Snap na grade</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num"><span>02 / ELETRÔNICA</span></div>
+        <div>
+          <h3>Ligue os fios.</h3>
+          <p>Parafuse um Arduino em cima, adicione um sensor ultrassônico e arraste os fios de pino em pino. Cada conexão fica visível — e o sensor só funciona se estiver ligado certo.</p>
+          <div class="chips"><span class="chip">Arduino UNO</span><span class="chip">ESP32</span><span class="chip">Ultrassônico HC-SR04</span><span class="chip">Sensor IR</span><span class="chip">Sensor de gás</span><span class="chip">Sensor de cor</span><span class="chip">LDR</span><span class="chip">DHT11</span><span class="chip">OLED 128×64</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num"><span>03 / CÓDIGO</span></div>
+        <div>
+          <h3>Programe.</h3>
+          <p>Escreva o sketch em blocos ou em C++ e rode. A placa acorda, o sensor dispara e seu carrinho anda — com física de verdade decidindo o resto.</p>
+          <div class="chips"><span class="chip">Programação em blocos</span><span class="chip">C++ Arduino</span><span class="chip">10 projetos prontos</span><span class="chip">Gravidade: Terra · Lua · Marte · Zero-G</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="recursos" style="background:var(--bg-soft)">
+  <div class="container">
+    <span class="section-label">Recursos</span>
+    <h2 class="section-title">Por que os builders escolhem o RoboLab.</h2>
+    <p class="section-sub">Cada cartão abaixo é um pedacinho da oficina.</p>
+    <div class="features-grid">
+      <div class="fcard"><div class="ico">🌍</div><h3>Física que fala a verdade</h3><p>Troque para a Lua ou Zero-G e aperte Start. Gravidade, massa e torque decidem como o seu robô se move.</p></div>
+      <div class="fcard"><div class="ico">💸</div><h3>Zero peças para comprar</h3><p>Teste cada ideia de graça. Monte o robô de verdade só quando ele funcionar aqui dentro.</p></div>
+      <div class="fcard"><div class="ico">🔌</div><h3>Fiação que você enxerga</h3><p>Arraste um fio de pino a pino. Os sensores só respondem quando a ligação está certa.</p></div>
+      <div class="fcard"><div class="ico">🧩</div><h3>Blocos viram código de verdade</h3><p>Encaixe blocos e receba C++ de Arduino de verdade, pronto para uma placa real.</p></div>
+      <div class="fcard"><div class="ico">📐</div><h3>Uma tela em branco, não um kit</h3><p>Modele qualquer peça com ferramentas CAD de verdade: cortar, combinar, extrudar, tudo na medida exata.</p></div>
+      <div class="fcard"><div class="ico">💻</div><h3>Roda no seu notebook</h3><p>Abra o navegador e comece a construir. Nada para instalar, nada para pagar.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="projetos">
+  <div class="container">
+    <span class="section-label">Projetos prontos</span>
+    <h2 class="section-title">Abra um projeto e comece rodando.</h2>
+    <p class="section-sub">Dez projetos prontos dentro da oficina — do primeiro LED piscando ao seguidor de linha completo. Todos abrem com um clique na aba Código.</p>
+    <div class="projects-grid">
+      <div class="pcard"><div class="emoji">🏎️</div><h4>Seguidor de linha</h4><p>Carrinho com 2 motores e sensores IR seguindo a pista.</p><a href="/robolab/app?projeto=seguidor-linha">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">⚡</div><h4>Rampa de motor</h4><p>Controle a velocidade de um motor DC com PWM.</p><a href="/robolab/app?projeto=rampa-motor">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">🦿</div><h4>Robô que caminha</h4><p>Pernas com servos e uma marcha programada.</p><a href="/robolab/app?projeto=robo-caminha">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">🦾</div><h4>Varredura de servo</h4><p>Servo varrendo de 0° a 180° como um radar.</p><a href="/robolab/app?projeto=servo-varredura">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">💡</div><h4>LED piscante</h4><p>O "olá, mundo" da robótica.</p><a href="/robolab/app?projeto=led-pisca">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">📺</div><h4>Display OLED</h4><p>Texto e gráficos numa telinha de 128×64.</p><a href="/robolab/app?projeto=oled-display">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">🟥</div><h4>Matriz de LED</h4><p>Desenhos e animações na matriz 8×8.</p><a href="/robolab/app?projeto=matriz-led">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">🔔</div><h4>Buzzer musical</h4><p>Melodias com a função tone().</p><a href="/robolab/app?projeto=buzzer">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">🕹️</div><h4>Motores da placa</h4><p>Ponte H: frente, ré e giro no próprio eixo.</p><a href="/robolab/app?projeto=motores">Abrir na oficina →</a></div>
+      <div class="pcard"><div class="emoji">🔘</div><h4>Botão de comando</h4><p>Leitura digital para ligar e desligar o robô.</p><a href="/robolab/app?projeto=botao">Abrir na oficina →</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="novidades" class="whatsnew">
+  <div class="container">
+    <span class="section-label" style="color:#c9a6ff">Novidades</span>
+    <h2 class="section-title">O RoboLab fica melhor a cada mês.</h2>
+    <p class="section-sub">Cada atualização chega de graça, direto no seu navegador. Olha o que vem por aí.</p>
+    <div class="roadmap">
+      <div class="rcard"><span class="ver">v2.0 · em breve</span><h3>Batalha de Robôs<span class="badge-soon">Em breve</span></h3><p>Monte um lutador, programe os golpes e batalhe contra os robôs dos seus amigos na arena. Mesma física de verdade. O último robô de pé vence.</p></div>
+      <div class="rcard"><span class="ver">v2.0 · em breve</span><h3>Arena de Física<span class="badge-soon">Em breve</span></h3><p>Armas, escudos e impactos com dano real calculado pela simulação.</p></div>
+      <div class="rcard"><span class="ver">v2.0 · em breve</span><h3>Projetos da turma<span class="badge-soon">Em breve</span></h3><p>Compartilhe seu robô com a escola e abra os projetos dos colegas com um link.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <span class="section-label">FAQ</span>
+    <h2 class="section-title">Perguntas respondidas.</h2>
+    <div style="margin-top:28px">
+      <details class="faq-item" open><summary>É grátis mesmo?</summary><p>Sim, completamente grátis. O RoboLab é a ferramenta da Academe Educação para levar robótica a qualquer escola.</p></details>
+      <details class="faq-item"><summary>Preciso baixar alguma coisa?</summary><p>Não. Roda direto no navegador: Chrome, Edge, Firefox ou Safari. Use um computador, porque construir robôs grandes pede uma tela grande.</p></details>
+      <details class="faq-item"><summary>Estou no celular. Dá para usar?</summary><p>O RoboLab foi feito para telas de computador, então ainda não funciona no celular. Abra no notebook ou no computador da escola.</p></details>
+      <details class="faq-item"><summary>O que eu consigo construir?</summary><p>Qualquer robô que imaginar: rodas, pernas, braços, sensores, motores. Construção 3D livre, não kits prontos.</p></details>
+      <details class="faq-item"><summary>Quais linguagens de programação tem?</summary><p>Duas: programação em blocos para começar e C++ de Arduino de verdade quando você estiver pronto. Os blocos escrevem o C++ para você.</p></details>
+      <details class="faq-item"><summary>O que é a Academe?</summary><p>A Academe Educação leva tecnologia e IA para escolas. O RoboLab é a nossa oficina de robótica no navegador.</p></details>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="final">
+      <h2>Pronto para construir<br>algo maluco?</h2>
+      <p>Entre na oficina agora. Grátis, sem login — e seus robôs ficam salvos no seu navegador.</p>
+      <a class="btn big" href="/robolab/app" style="background:#fff;color:var(--roxo)">Abrir o RoboLab grátis</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="col">
+      <b>RoboLab</b>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#projetos">Projetos</a>
+      <a href="/robolab/app">Abrir a oficina</a>
+    </div>
+    <div class="col">
+      <b>Academe</b>
+      <a href="https://www.academe.com.br" rel="noopener">Site da Academe</a>
+      <a href="https://www.academe.com.br" rel="noopener">Academe Educação</a>
+    </div>
+    <div class="base">
+      <span>RoboLab é uma oficina 3D de robôs gratuita no navegador: monte, ligue os fios e programe qualquer robô, depois veja ele rodar com física de verdade. Feito pela Academe Educação.</span>
+      <span>© 2026 Academe Educação</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
