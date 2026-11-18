@@ -1,0 +1,37 @@
+{
+  "id": "/eletronica-101/",
+  "name": "Eletrônica 101 — Academe Educação",
+  "short_name": "Eletrônica 101",
+  "description": "Lições 3D interativas de eletrônica, grátis: ligue cada circuito, troque as peças e veja a corrente fluir.",
+  "start_url": "/eletronica-101/",
+  "scope": "/eletronica-101/",
+  "display": "standalone",
+  "background_color": "#f6eddd",
+  "theme_color": "#f6eddd",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "/eletronica-101/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/eletronica-101/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/eletronica-101/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/eletronica-101/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/eletronica-101/:path*", "destination": "/eletronica-101/index.html" }
+  ]
+}
