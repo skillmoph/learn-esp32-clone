@@ -35,3 +35,7 @@ html:not(.compact) #app{overflow:clip!important}
 .fly-group b{font:700 11px/1.2 var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 .fly-group[data-lv="3"] b,.fly-group[data-lv="4"] b,.fly-group[data-lv="5"] b{color:#6b8a1f}
 .fly-group small{font-size:11px;color:var(--muted)}
+
+/* ===== Eletrônica 101 aberta dentro do mesmo player ===== */
+#app.e101-on #stage,#app.e101-on .info-card,#app.e101-on .code-card,#app.e101-on .schematic-card,#app.e101-on #tags,#app.e101-on #leaders,#app.e101-on #rig{visibility:hidden}
+.e101-frame{border:1.5px solid var(--line);border-radius:16px;background:var(--bg);box-shadow:var(--shadow);color-scheme:light}

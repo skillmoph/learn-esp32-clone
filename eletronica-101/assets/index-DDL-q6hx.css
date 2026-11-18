@@ -20,3 +20,11 @@ a:focus-visible,button:focus-visible{outline-color:#8b1fcc}
 
 header.brand .brand-logo.academe{margin-right:22px}
 html.compact header.brand .brand-logo.academe{margin-right:12px}
+
+/* ===== embed: roda dentro do shell ESP32 Interativo (mesmo sistema) ===== */
+html.embed,html.embed body{background:transparent}
+html.embed .sidebar,html.embed .brand,html.embed .status,html.embed .lessons,html.embed .traces,html.embed .flyout{display:none!important}
+html.embed:not(.compact) .artboard{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;transform:none!important;background:transparent!important}
+html.embed:not(.compact) .stage{inset:0 498px 0 0;border:1.5px solid var(--line);border-radius:16px;background:var(--bg-deep);overflow:hidden}
+html.embed:not(.compact) .info-card{top:0;bottom:0;right:0;width:486px;border-radius:16px}
+html.embed.compact .artboard{padding:8px 10px 14px}
