@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/roverkit/favicon.svg" />
+    <link rel="apple-touch-icon" href="/roverkit/apple-touch-icon.png" />
+    <!-- The fonts the first screen needs, fetched alongside the script rather than after it: the loading
+         screen's (Oswald 600, Barlow Condensed 500), and those the boards' printing is drawn with before
+         the car is built (Oswald 700, Barlow Condensed 600 and 500; see start() in main.js). -->
+    <link rel="preload" href="/roverkit/assets/oswald-latin-600-normal-plFmSr5g.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/roverkit/assets/oswald-latin-700-normal-vy6hmKSr.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/roverkit/assets/barlow-condensed-latin-500-normal-BgYH2mbd.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/roverkit/assets/barlow-condensed-latin-600-normal-DepVgxBB.woff2" as="font" type="font/woff2" crossorigin />
+    <title>RoboKit — monte e simule um carro robô | Academe Educação</title>
+    <meta name="description" content="Monte um carro robô de quatro rodas com Arduino UNO ou ESP32, passo a passo em 3D, e depois pilote no simulador. Grátis, por Academe Educação." />
+    <meta name="theme-color" content="#330b4f" />
+    <!-- link previews (scripts/og-image.cjs makes the picture). The build makes the picture's address
+         absolute, and adds og:url and the canonical link, once it knows the site's address (vite.config.js) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Academe Educação" />
+    <meta property="og:title" content="RoboKit — monte e simule um carro robô | Academe Educação" />
+    <meta property="og:description" content="Monte um carro robô de quatro rodas com Arduino UNO ou ESP32, passo a passo em 3D, e depois pilote no simulador. Grátis, por Academe Educação." />
+    <meta property="og:image" content="https://learn-esp32-clone.vercel.app/roverkit/rk-thumb.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="O carro robô do RoboKit montado, pronto para pilotar" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://learn-esp32-clone.vercel.app/roverkit/rk-thumb.png" />
+    <style>.loader{z-index:1000;color:#0e1932;background:#f6f3e8;place-items:center;transition:opacity .4s,visibility 0s linear .4s;display:grid;position:fixed;inset:0}.loader.is-done{opacity:0;visibility:hidden;pointer-events:none}.loader__box{flex-direction:column;align-items:center;width:min(320px,76vw);display:flex}.loader__mark{width:76px;height:76px}.loader__wheel{transform-origin:21px 27px;animation:1.8s linear infinite loader-turn}@keyframes loader-turn{to{transform:rotate(360deg)}}.loader__name{letter-spacing:1.5px;margin-top:16px;font:600 30px/1 Oswald,Barlow Condensed,Arial Narrow,Arial,sans-serif}.loader__name b{color:#892CDD;font-weight:600}.loader__bar{background:#e1dfd8;border-radius:5px;width:100%;height:8px;margin-top:24px;overflow:hidden}.loader__bar span{border-radius:inherit;background:linear-gradient(90deg,#3d1170,#571aa0);width:4%;height:100%;transition:width .3s;display:block}.loader__text{letter-spacing:.3px;color:#5d6272;text-align:center;min-height:20px;margin-top:12px;font:500 15px/1.3 Barlow Condensed,Arial Narrow,Arial,sans-serif}.loader.is-failed .loader__wheel{animation:none}.loader.is-failed .loader__bar{visibility:hidden}@media (prefers-reduced-motion:reduce){.loader__wheel{animation:none}.loader,.loader__bar span{transition:none}}</style>
+    <script type="module" crossorigin src="/roverkit/assets/index-DmGXFRAC.js"></script>
+    <link rel="modulepreload" crossorigin href="/roverkit/assets/three-B7_1PfeK.js">
+    <link rel="stylesheet" crossorigin href="/roverkit/assets/index-_KjPtBr0.css">
+    <meta property="og:url" content="https://learn-esp32-clone.vercel.app/roverkit/">
+    <link rel="canonical" href="https://learn-esp32-clone.vercel.app/roverkit/">
+  </head>
+  <body>
+    <!-- ───────────────────────── Loading screen ───────────────────────── -->
+    <div class="loader" id="loader" role="status" aria-live="polite">
+      <div class="loader__box">
+        <svg class="loader__mark" viewBox="0 0 48 48" aria-hidden="true">
+          <defs>
+            <linearGradient id="rkTileLoader" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#20406b" />
+              <stop offset="1" stop-color="#0f2443" />
+            </linearGradient>
+          </defs>
+          <rect x="1" y="1" width="46" height="46" rx="12" fill="url(#rkTileLoader)" />
+          <g fill="none" stroke="#2fb38f" stroke-width="2.6" stroke-linecap="round">
+            <path d="M33.6 12.6a17 17 0 0 1 4.8 8.6" />
+            <path d="M36.9 8.4a22 22 0 0 1 6 11" opacity=".55" />
+          </g>
+          <g class="loader__wheel">
+            <circle cx="21" cy="27" r="12.4" fill="none" stroke="#fdc94f" stroke-width="4.4" />
+            <g stroke="#fdc94f" stroke-width="3.2" stroke-linecap="round">
+              <path d="M21 23.2V16.6" />
+              <path d="M24.6 25.8l6.3-2" />
+              <path d="M23.2 30l3.9 5.3" />
+              <path d="M18.8 30l-3.9 5.3" />
+              <path d="M17.4 25.8l-6.3-2" />
+            </g>
+            <circle cx="21" cy="27" r="3.4" fill="#fdc94f" />
+            <circle cx="21" cy="27" r="1.3" fill="#0f2443" />
+          </g>
+        </svg>
+        <div class="loader__name">ROBO<b>KIT</b></div>
+        <div class="loader__bar" aria-hidden="true"><span id="loaderFill"></span></div>
+        <div class="loader__text" id="loaderText">Loading…</div>
+      </div>
+    </div>
+    <noscript><p style="position: fixed; inset: auto 0 12% 0; z-index: 1001; text-align: center; font: 16px Arial, sans-serif">O RoboKit precisa de JavaScript para funcionar.</p></noscript>
+
+    <div class="stage">
+      <div class="app">
+        <!-- ───────────────────────── Top bar ───────────────────────── -->
+        <header class="topbar">
+          <div class="topbar__left">
+            <a class="brand" href="#parts" aria-label="RoboKit — início do tutorial">
+              <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
+                <defs>
+                  <linearGradient id="rkTile" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#20406b" />
+                    <stop offset="1" stop-color="#0f2443" />
+                  </linearGradient>
+                </defs>
+                <rect x="1" y="1" width="46" height="46" rx="12" fill="url(#rkTile)" />
+                <g fill="none" stroke="#2fb38f" stroke-width="2.6" stroke-linecap="round">
+                  <path d="M33.6 12.6a17 17 0 0 1 4.8 8.6" />
+                  <path d="M36.9 8.4a22 22 0 0 1 6 11" opacity=".55" />
+                </g>
+                <circle cx="21" cy="27" r="12.4" fill="none" stroke="#fdc94f" stroke-width="4.4" />
+                <g stroke="#fdc94f" stroke-width="3.2" stroke-linecap="round">
+                  <path d="M21 23.2V16.6" />
+                  <path d="M24.6 25.8l6.3-2" />
+                  <path d="M23.2 30l3.9 5.3" />
+                  <path d="M18.8 30l-3.9 5.3" />
+                  <path d="M17.4 25.8l-6.3-2" />
+                </g>
+                <circle cx="21" cy="27" r="3.4" fill="#fdc94f" />
+                <circle cx="21" cy="27" r="1.3" fill="#0f2443" />
+              </svg>
+              <span class="brand__text">
+                <span class="brand__name">ROBO<b>KIT</b></span>
+              </span>
+            </a>
+            <span class="topbar__rule" aria-hidden="true"></span>
+            <!-- who made it -->
+            <a class="credit" href="https://academe.com.br" target="_blank" rel="noopener noreferrer" title="academe.com.br (opens in a new tab)">
+              <span class="credit__tile" aria-hidden="true">
+<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Academe"><rect width="40" height="40" rx="10" fill="#892CDD"/><text x="20" y="28" text-anchor="middle" font-family="Oswald, Arial Narrow, sans-serif" font-size="24" font-weight="700" fill="#ffffff">A</text></svg>
+              </span>
+              <span class="credit__text">
+                <span class="credit__label">Designed by</span>
+                <span class="credit__handle">academe.com.br</span>
+              </span>
+            </a>
+          </div>
+
+          <div class="topbar__right">
+            <span class="topbar__label" id="boardLabel">Board</span>
+            <div class="segmented segmented--board" id="boardGroup" role="radiogroup" aria-labelledby="boardLabel">
+              <button role="radio" data-board="uno" aria-checked="true" class="is-active">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2" /><path d="M7 6V4M10 6V4M13 6V4M16 6V4M7 20v-2M10 20v-2M13 20v-2" /></svg>
+                <span class="board__name">Arduino UNO</span><span class="board__short">UNO</span>
+              </button>
+              <button role="radio" data-board="esp32" aria-checked="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 10a11 11 0 0 1 15 0M7.5 13.2a6.6 6.6 0 0 1 9 0" /><circle cx="12" cy="17" r="1.6" /></svg>
+                ESP32
+              </button>
+            </div>
+            <!-- the interface's language (ui/language.js; the languages are in core/languages.js) -->
+            <div class="lang-picker" id="langPicker">
+              <button class="icon-btn lang-btn" id="langBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="langPanel" title="Language">
+                <svg class="lang-btn__globe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" /><path d="M3.6 9.4h16.8M3.6 14.6h16.8M12 3.4c2.4 2.4 3.6 5.3 3.6 8.6s-1.2 6.2-3.6 8.6c-2.4-2.4-3.6-5.3-3.6-8.6S9.6 5.8 12 3.4Z" /></svg>
+                <span class="lang-btn__chip" id="langChip">EN</span>
+                <svg class="lang-btn__caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 10l4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="langs" id="langPanel" data-own-keys>
+                <div class="langs__title" id="langTitle">Language</div>
+                <div class="langs__list" id="langList" role="menu" aria-labelledby="langTitle"></div>
+              </div>
+            </div>
+            <button class="icon-btn" id="settingsBtn" aria-label="Settings" aria-haspopup="dialog" title="Settings">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1a7.3 7.3 0 0 0-1.69-.98l-.38-2.65A.49.49 0 0 0 14 2h-4a.49.49 0 0 0-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.5.5 0 0 0-.61.22l-2 3.46a.49.49 0 0 0 .12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.65ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <main class="layout">
+          <!-- ───────────── Workbench (3D) ───────────── -->
+          <section class="card card--bench" aria-label="3D workbench">
+            <div class="viewport" id="viewport"></div>
+
+            <header class="bench__head">
+              <span class="badge badge--icon" aria-hidden="true">
+                <svg class="bench__icon bench__icon--build" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.3 5.3l-5.6 5.6a1.4 1.4 0 0 0 2 2l5.6-5.6a4 4 0 0 0 5.3-5.3l-2.5 2.5-2-.5-.5-2Z" /></svg>
+                <svg class="bench__icon bench__icon--drive" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6" /><circle cx="12" cy="12" r="2.2" /><path d="M3.6 11h6.2M14.2 11h6.2M12 14.2v6.2" /></svg>
+              </span>
+              <div class="bench__titles">
+                <h2 class="card__title" id="benchTitle">WORKBENCH</h2>
+                <span class="bench__sub" id="benchSub">Step 1 · Gather the parts</span>
+              </div>
+              <div class="pill pill--status" id="connPill" data-state="ok" role="status" aria-live="polite" hidden>
+                <span class="dot dot--live"></span>
+                <span id="connText">Simulator</span>
+              </div>
+            </header>
+
+            <div class="view-tools">
+              <!-- the assembly animation (build steps) -->
+              <div class="tool-group" id="playTools" role="group" aria-label="Animation" hidden>
+                <button class="tool tool--play" id="playBtn" type="button" aria-label="Pause" title="Pause (Space)">
+                  <svg class="tool__pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.6" y="5.2" width="3.6" height="13.6" rx="1.2" /><rect x="13.8" y="5.2" width="3.6" height="13.6" rx="1.2" /></svg>
+                  <svg class="tool__resume" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.4 5.4c0-.9 1-1.5 1.8-1l9 6c.7.5.7 1.5 0 2l-9 6c-.8.5-1.8-.1-1.8-1Z" /></svg>
+                </button>
+                <button class="tool tool--text" id="playSpeed" type="button" aria-label="Playback speed" title="Playback speed">1×</button>
+              </div>
+              <div class="tool-group" role="group" aria-label="Zoom">
+                <button class="tool" data-tool="zoom-in" aria-label="Zoom in" title="Zoom in">
+                  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
+                </button>
+                <button class="tool" data-tool="zoom-out" aria-label="Zoom out" title="Zoom out">
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14" /></svg>
+                </button>
+              </div>
+              <div class="tool-group" role="group" aria-label="View">
+                <button class="tool tool--toggle" id="explodeBtn" aria-pressed="false" aria-label="Exploded view (E)" title="Exploded view (E)">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2.8 3.6 7l8.4 4.2L20.4 7Z" />
+                    <path d="M3.6 12.2 12 16.4l8.4-4.2" />
+                    <path d="M3.6 17 12 21.2l8.4-4.2" />
+                  </svg>
+                </button>
+                <!-- drive step: ride behind the car -->
+                <button class="tool tool--chase" id="chaseBtn" aria-pressed="false" aria-label="Chase view: follow the car from behind (C)" title="Chase view: follow the car from behind (C)">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3.6" y="7.6" width="11" height="8.8" rx="2" />
+                    <path d="M14.6 10.6 20.4 7.6v8.8l-5.8-3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- part inspector -->
+            <div class="part-tip" id="partTip" hidden aria-hidden="true"><b id="partTipName"></b><span>Click to inspect</span></div>
+
+            <!-- live readouts (drive step) -->
+            <div class="hud" id="hud" hidden>
+              <div class="hud__item"><span class="hud__k">Distance</span><span class="hud__v"><b data-hud="distance">--</b> cm</span></div>
+              <div class="hud__item"><span class="hud__k">Speed</span><span class="hud__v"><b data-hud="speed">--</b> %</span></div>
+              <div class="hud__item"><span class="hud__k">Mode</span><span class="hud__v"><b data-hud="mode">--</b></span></div>
+              <div class="hud__item"><span class="hud__k">Servo</span><span class="hud__v"><b data-hud="servo">--</b>°</span></div>
+            </div>
+
+            <!-- arena map (drive step). Its pencil button turns it into the arena editor: the map grows, the
+                 obstacles can be moved, turned and resized on it, and the simulation waits meanwhile -->
+            <div class="bench-veil" id="arenaVeil" hidden></div>
+            <div class="minimap" id="minimap" hidden>
+              <header class="arena__head">
+                <h3 class="arena__title">Customize the arena</h3>
+                <span class="arena__paused"><i aria-hidden="true"></i>Simulation paused</span>
+              </header>
+              <canvas id="minimapCanvas" width="196" height="196" role="img" aria-label="Top-down map of the test arena"></canvas>
+              <aside class="arena__side" aria-label="The selected obstacle">
+                <p class="arena__none" id="arenaNone">Click an obstacle to select it.</p>
+                <div class="arena__sel" id="arenaSel" hidden>
+                  <h4 class="arena__name"><i class="arena__swatch" id="arenaSwatch" aria-hidden="true"></i><span id="arenaName"></span></h4>
+                  <p class="arena__group">Size</p>
+                  <label class="afield" data-field="w"><span>Length</span><input type="number" inputmode="decimal" step="1" /><em>cm</em></label>
+                  <label class="afield" data-field="d"><span>Width</span><input type="number" inputmode="decimal" step="1" /><em>cm</em></label>
+                  <label class="afield" data-field="dia"><span>Diameter</span><input type="number" inputmode="decimal" step="1" /><em>cm</em></label>
+                  <label class="afield" data-field="h"><span>Height</span><input type="number" inputmode="decimal" step="1" /><em>cm</em></label>
+                  <label class="afield" data-field="turn"><span>Turned</span><input type="number" inputmode="decimal" step="5" /><em>°</em></label>
+                  <p class="arena__group" title="Of the obstacle's middle, from the middle of the arena, where the car starts facing up the map">Place, from the start</p>
+                  <label class="afield" data-field="x"><span>Ahead</span><input type="number" inputmode="decimal" step="1" /><em>cm</em></label>
+                  <label class="afield" data-field="z"><span>To the right</span><input type="number" inputmode="decimal" step="1" /><em>cm</em></label>
+                </div>
+                <dl class="arena__keys">
+                  <div><dt><kbd>Shift</kbd></dt><dd>steps of 5 cm, 15°</dd></div>
+                  <div><dt><kbd>Alt</kbd></dt><dd>size from the middle</dd></div>
+                  <div><dt><kbd>←↑↓→</kbd></dt><dd>move · <kbd>R</kbd> turn</dd></div>
+                </dl>
+              </aside>
+              <div class="minimap__foot">
+                <span class="minimap__label">Arena · 3 × 3 m</span>
+                <button class="minimap__edit" id="arenaEdit" type="button" aria-label="Customize the arena" title="Customize the arena: move, turn and resize the obstacles">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 20h4.2L19.4 8.8a2 2 0 0 0 0-2.8L18 4.6a2 2 0 0 0-2.8 0L4 15.8Z" />
+                    <path d="m13.4 6.4 4.2 4.2" />
+                  </svg>
+                </button>
+              </div>
+              <footer class="arena__foot">
+                <p class="arena__hint" id="arenaHint" aria-live="polite"></p>
+                <button class="btn-ghost" id="arenaUndo" type="button" title="Undo the last change (Ctrl+Z). Ctrl+Shift+Z brings it back">Undo</button>
+                <button class="btn-ghost" id="arenaReset" type="button" title="The arena as it came, with the car back at its start">Reset</button>
+                <button class="btn-ghost" id="arenaCancel" type="button" title="Leave the arena as it was (Esc)">Cancel</button>
+                <button class="btn-primary" id="arenaSave" type="button" title="Use this arena: the 3D view is rebuilt and the simulation goes on">Save</button>
+              </footer>
+            </div>
+
+            <!-- how the program decides (code step): a small flow chart of the avoiding routine. It grows to
+                 fill the bench; picking a box shows what it does and the lines of the sketch that do it -->
+            <div class="bench-veil" id="flowVeil" hidden></div>
+            <section class="flow" id="flowCard" hidden aria-label="How the car’s program decides">
+              <header class="flow__head">
+                <div class="flow__heading">
+                  <h3 class="flow__title">How the program decides</h3>
+                  <span class="flow__file" id="flowFile"></span>
+                </div>
+                <span class="flow__tip">Pick a box to see its code</span>
+                <button class="flow__close" id="flowClose" type="button" aria-label="Close the flow chart" title="Close (Esc)">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+                </button>
+              </header>
+              <div class="flow__chart" id="flowChart"><div class="flow__stage" id="flowStage"></div></div>
+              <!-- on the drive step: what the routine is deciding just now, and on what grounds -->
+              <p class="flow__say" id="flowSay" aria-live="off"><b id="flowSayWhat"></b><span id="flowSayWhy"></span></p>
+              <div class="flow__detail">
+                <div class="flow__about" aria-live="polite">
+                  <div class="flow__about-in" id="flowAbout">
+                    <span class="flow__kind" id="flowKind"></span>
+                    <h4 class="flow__node" id="flowNodeTitle"></h4>
+                    <p class="flow__text" id="flowNodeText"></p>
+                  </div>
+                </div>
+                <div class="code flow__code">
+                  <div class="code__head"><span class="code__file" id="flowLines"></span></div>
+                  <pre id="flowPre"><code id="flowCode"></code></pre>
+                </div>
+              </div>
+              <div class="flow__foot">
+                <span class="minimap__label">Program flow</span>
+                <!-- (one or the other: "Live" while the routine runs, the button that starts it while it does not) -->
+                <span class="flow__state">
+                  <span class="flow__badge" id="flowBadge"><i aria-hidden="true"></i>Live</span>
+                  <button class="flow__auto" id="flowAuto" type="button" title="Switch the car to Auto, and watch it decide">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5Z" /></svg>Auto
+                  </button>
+                </span>
+                <button class="flow__expand" id="flowOpen" type="button" aria-label="How the program decides: open the flow chart" title="How the program decides: open the flow chart">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7" /></svg>
+                </button>
+              </div>
+            </section>
+
+          </section>
+
+          <!-- ───────────── Step timeline ───────────── -->
+          <nav class="card card--timeline" aria-label="Tutorial steps">
+            <button class="strip__nav strip__nav--prev" id="stripPrev" type="button" aria-label="Earlier steps" title="Earlier steps">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6" /></svg>
+            </button>
+            <div class="strip__view" id="stripView">
+              <ol class="strip" id="timeline"></ol>
+            </div>
+            <button class="strip__nav strip__nav--next" id="stripNext" type="button" aria-label="Later steps" title="Later steps">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" /></svg>
+            </button>
+          </nav>
+
+          <!-- ───────────── Lesson ───────────── -->
+          <section class="card card--lesson" id="lessonCard" aria-labelledby="lessonTitle">
+            <div class="lesson__pane" id="lessonPane">
+            <header class="lesson__head">
+              <span class="badge badge--step" id="lessonNum">01</span>
+              <div>
+                <span class="lesson__kicker" id="lessonKicker">GET READY · STEP 1 OF 10</span>
+                <h2 class="lesson__title" id="lessonTitle">Gather the parts</h2>
+              </div>
+            </header>
+
+            <div class="lesson__body" id="lessonBody">
+              <div id="lessonContent"></div>
+
+              <!-- drive controls (shown on the Drive step) -->
+              <div class="drive" id="drivePanel" hidden>
+                <h3 class="lesson__h">Drive</h3>
+                <div class="motor">
+                  <div class="dpad" id="dpad" role="group" aria-label="Drive">
+                    <button class="dpad__btn dpad__btn--up" data-drive="forward" aria-label="Forward (W / ↑)" title="Forward (W / ↑)"><i class="tri tri--up"></i></button>
+                    <button class="dpad__btn dpad__btn--left" data-drive="left" aria-label="Turn left (A / ←)" title="Turn left (A / ←)"><i class="tri tri--left"></i></button>
+                    <button class="dpad__stop" data-drive="stop" aria-label="Stop (Space)" title="Stop (Space)"><i class="sq"></i></button>
+                    <button class="dpad__btn dpad__btn--right" data-drive="right" aria-label="Turn right (D / →)" title="Turn right (D / →)"><i class="tri tri--right"></i></button>
+                    <button class="dpad__btn dpad__btn--down" data-drive="backward" aria-label="Reverse (S / ↓)" title="Reverse (S / ↓)"><i class="tri tri--down"></i></button>
+                  </div>
+                  <div class="motor__side">
+                    <div class="row-between">
+                      <span class="label">Speed</span>
+                      <span class="big-num"><span id="speedValue">70</span> <small>%</small></span>
+                    </div>
+                    <div class="slider" id="speedSlider" role="slider" tabindex="0" aria-label="Motor speed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" style="--v: 70%"><span class="slider__fill"></span><span class="slider__thumb"></span></div>
+                    <span class="label label--mode">Mode</span>
+                    <div class="segmented" id="modeGroup" role="radiogroup" aria-label="Drive mode">
+                      <button role="radio" data-mode="manual" aria-checked="true" class="is-active" title="Manual (1)">Manual</button>
+                      <button role="radio" data-mode="auto" aria-checked="false" title="Obstacle avoidance (2)">Auto</button>
+                      <button role="radio" data-mode="stop" aria-checked="false" title="Disable motors (3)">Stop</button>
+                    </div>
+                  </div>
+                </div>
+
+                <h3 class="lesson__h">Actuators</h3>
+                <div class="act-grid">
+                  <div class="tile act">
+                    <span class="act__dot act__dot--led" aria-hidden="true"></span>
+                    <span class="act__label" id="ledLabel">LED</span>
+                    <button class="toggle" id="ledToggle" role="switch" aria-checked="false" aria-labelledby="ledLabel" title="LED (L)"><span class="toggle__knob"></span></button>
+                  </div>
+                  <div class="tile act">
+                    <span class="act__dot act__dot--buzzer" aria-hidden="true"></span>
+                    <span class="act__label" id="buzzerLabel">Buzzer</span>
+                    <button class="toggle" id="buzzerToggle" role="switch" aria-checked="false" aria-labelledby="buzzerLabel" title="Buzzer (B)"><span class="toggle__knob"></span></button>
+                  </div>
+                  <div class="tile act act--servo">
+                    <span class="act__label">Servo</span>
+                    <div class="slider slider--servo" id="servoSlider" role="slider" tabindex="0" aria-label="Servo angle" aria-valuemin="0" aria-valuemax="180" aria-valuenow="90" style="--v: 50%"><span class="slider__fill"></span><span class="slider__thumb"></span></div>
+                    <span class="big-num big-num--servo"><span id="servoValue">90</span>°</span>
+                  </div>
+                </div>
+                <p class="drive__keys"><kbd>WASD</kbd> drive · <kbd>Space</kbd> stop · <kbd>1–3</kbd> mode · <kbd>L</kbd> LED · <kbd>B</kbd> buzzer · <kbd>C</kbd> chase</p>
+
+                <h3 class="lesson__h lesson__h--serial">Serial monitor <button class="serial__clear" id="serialClear" type="button">Clear</button></h3>
+                <div class="serial" id="serialPanel">
+                  <div class="terminal">
+                    <div class="terminal__body" id="serialLog" role="log" aria-label="Serial output" tabindex="0"></div>
+                    <span class="terminal__scroll" id="serialScroll" aria-hidden="true"><span></span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <footer class="lesson__foot">
+              <button class="btn-ghost" id="prevBtn">← Back</button>
+              <span class="lesson__keys" id="lessonKeys"><kbd>←</kbd><kbd>→</kbd> steps</span>
+              <button class="btn-primary" id="nextBtn">Next</button>
+            </footer>
+            </div>
+
+            <!-- part details: replace the step while open (Back or Esc returns) -->
+            <section class="partview" id="partCard" hidden aria-labelledby="partName">
+              <header class="partview__bar">
+                <button class="partview__back" id="partClose" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6" /></svg>
+                  <span id="partBackLabel">Back to the step</span>
+                </button>
+                <kbd class="partview__esc">Esc</kbd>
+              </header>
+              <div class="partview__head">
+                <span class="partview__group" id="partGroup"></span>
+                <h2 class="partview__name" id="partName"></h2>
+              </div>
+              <div class="partview__body" id="partBody">
+                <p class="partview__what" id="partWhat"></p>
+                <h3 class="lesson__h">Specs</h3>
+                <dl class="partview__specs" id="partSpecs"></dl>
+              </div>
+              <footer class="partview__foot">
+                <span class="partview__step" id="partStep"></span>
+                <button class="btn-primary" id="partGo" type="button">Go to step</button>
+              </footer>
+            </section>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- ───────────── Settings ───────────── -->
+    <dialog class="settings" id="settingsDialog" aria-labelledby="settingsTitle">
+      <form method="dialog" class="settings__panel" id="settingsForm">
+        <header class="settings__head">
+          <h2 class="card__title" id="settingsTitle">SETTINGS</h2>
+          <button class="settings__close" value="cancel" aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+          </button>
+        </header>
+
+        <section class="settings__group">
+          <h3 class="settings__label">Drive step connects to</h3>
+          <div class="segmented segmented--wide" id="connGroup" role="radiogroup" aria-label="Connection">
+            <button type="button" role="radio" data-conn="sim" aria-checked="true">Simulator</button>
+            <button type="button" role="radio" data-conn="ws" aria-checked="false">Real car (ESP32 Wi-Fi)</button>
+          </div>
+          <label class="field" id="urlField">
+            <span>Car address</span>
+            <input id="wsUrl" type="text" spellcheck="false" autocomplete="off" placeholder="ws://192.168.4.1:81/" />
+          </label>
+          <p class="settings__hint" id="connHint"></p>
+        </section>
+
+        <section class="settings__group">
+          <h3 class="settings__label">Display &amp; sound</h3>
+          <div class="settings__row">
+            <span id="optSoundLabel">Play the buzzer through the speakers</span>
+            <button type="button" class="toggle" id="optSound" role="switch" aria-checked="true" aria-labelledby="optSoundLabel"><span class="toggle__knob"></span></button>
+          </div>
+          <div class="settings__row">
+            <span id="optBeamLabel">Show the ultrasonic beam</span>
+            <button type="button" class="toggle" id="optBeam" role="switch" aria-checked="true" aria-labelledby="optBeamLabel"><span class="toggle__knob"></span></button>
+          </div>
+          <div class="settings__row">
+            <span id="optFollowLabel">Camera follows the car</span>
+            <button type="button" class="toggle" id="optFollow" role="switch" aria-checked="true" aria-labelledby="optFollowLabel"><span class="toggle__knob"></span></button>
+          </div>
+        </section>
+
+        <footer class="settings__foot">
+          <button type="button" class="btn-ghost" id="simReset">Reset simulation</button>
+          <button type="button" class="btn-primary" id="settingsApply">Apply</button>
+        </footer>
+      </form>
+    </dialog>
+
+  </body>
+</html>

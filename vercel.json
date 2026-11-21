@@ -11,6 +11,10 @@
     {
       "source": "/eletronica-101/:path*",
       "destination": "/eletronica-101/index.html"
+    },
+    {
+      "source": "/roverkit",
+      "destination": "/roverkit/index.html"
     }
   ]
 }
