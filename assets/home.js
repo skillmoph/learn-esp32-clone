@@ -3,7 +3,7 @@
    escolha simples de trilha e "Explorar a placa". Nada é removido do
    app: tudo continua acessível depois da escolha. */
 (() => {
-  const VER = "2026-11-21d";
+  const VER = "2026-11-21e";
   const $ = (s, r = document) => r.querySelector(s);
 
   const STR = {

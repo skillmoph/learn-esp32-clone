@@ -32,7 +32,7 @@
       const x = document.createElement("button"); x.type = "button"; x.className = "dt-x"; x.setAttribute("aria-label", "Fechar"); x.textContent = "×"; x.onclick = hide;
       toast.append(x);
       const rail = document.querySelector(".lessons");
-      let bottom = 26;
+      let bottom = document.documentElement.classList.contains("compact") ? 82 : 26;
       if (rail && !document.documentElement.classList.contains("compact")) {
         const rr = rail.getBoundingClientRect();
         if (rr.height) bottom = Math.max(14, Math.round(window.innerHeight - rr.top + 12));
