@@ -39,3 +39,13 @@ html:not(.compact) #app{overflow:clip!important}
 /* ===== Eletrônica 101 aberta dentro do mesmo player ===== */
 #app.e101-on #stage,#app.e101-on .info-card,#app.e101-on .code-card,#app.e101-on .schematic-card,#app.e101-on #tags,#app.e101-on #leaders,#app.e101-on #rig{visibility:hidden}
 .e101-frame{border:1.5px solid var(--line);border-radius:16px;background:var(--bg);box-shadow:var(--shadow);color-scheme:light}
+.level-bar{position:static;margin:0 50px 4px 6px;display:block;overflow:visible;white-space:normal}
+.lb-row{display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;white-space:nowrap;padding:2px 0}
+.lb-row::-webkit-scrollbar{display:none}
+.lb-row+.lb-row{margin-top:4px}
+.lb-label{flex:none;width:44px;font:700 10px/1 var(--cond);letter-spacing:.08em;text-transform:uppercase;color:#8a7b9e}
+.level-chip i{font:700 9.5px/1 var(--cond);font-style:normal;background:#efe6f7;color:var(--accent);border-radius:999px;padding:2px 6px;margin-left:6px}
+.level-chip.is-on i{background:rgba(255,255,255,.28);color:#fff}
+.level-chip em{font:600 9.5px/1 var(--cond);font-style:normal;color:#8a7b9e;margin-left:6px}
+.level-chip.is-on em{color:#f3e8ff}
+.compact .level-bar{margin:0 34px 4px 4px}
