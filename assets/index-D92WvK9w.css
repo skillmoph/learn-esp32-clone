@@ -49,3 +49,6 @@ html:not(.compact) #app{overflow:clip!important}
 .level-chip em{font:600 9.5px/1 var(--cond);font-style:normal;color:#8a7b9e;margin-left:6px}
 .level-chip.is-on em{color:#f3e8ff}
 .compact .level-bar{margin:0 34px 4px 4px}
+.lesson-thumb[data-thumb="rl"]{content:url("/robolab/rl-thumb.png")}
+.lesson-thumb[data-thumb="rk"]{content:url("/roverkit/rk-thumb.png")}
+.lesson-thumb[data-thumb="rl"],.lesson-thumb[data-thumb="rk"]{opacity:1!important}
