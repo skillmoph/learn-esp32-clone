@@ -1,0 +1,220 @@
+/* Home limpa do ESP32 Interativo (Academe) — v2026-11-21a
+   Tela inicial organizada: uma chamada principal, escolha de trilha,
+   e o app completo atrás de "Explorar a placa". */
+
+/* menos ruído dentro do app (ordem do André: informação demais na tela) */
+.clock { display: none !important; }
+.view-hint { display: none !important; }
+
+/* ---- barra de filtros em UM seletor (substitui as duas fileiras de fichas) ---- */
+.level-bar { gap: 8px; align-items: center; }
+.lb-sel {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  max-width: 240px;
+  font: 600 12px/1.2 var(--sans, "Poppins", sans-serif);
+  color: var(--navy, #160232);
+  background: #fff
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%23892CDD' stroke-width='1.8' stroke-linecap='round'/></svg>")
+    no-repeat right 10px center / 10px;
+  border: 1.5px solid var(--line-strong, #d9cdea);
+  border-radius: 10px;
+  padding: 8px 28px 8px 12px;
+  cursor: pointer;
+}
+.lb-sel:hover { border-color: #892cdd; }
+.lb-sel:focus-visible { outline: 2px solid #892cdd; outline-offset: 1px; }
+.lb-count {
+  flex: none;
+  margin-left: auto;
+  font: 600 11px/1 var(--cond, "Barlow Semi Condensed", sans-serif);
+  letter-spacing: 0.04em;
+  color: #8a7b9e;
+  white-space: nowrap;
+}
+.compact .level-bar {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 8px 6px !important;
+}
+.compact .lb-sel { max-width: calc(50% - 4px); flex: 1 1 auto; }
+.compact .lb-count { width: 100%; margin-left: 2px; }
+
+/* ---- tela Home ---- */
+.home-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(900px 500px at 85% -10%, #efe3ff 0%, #0000 60%),
+    radial-gradient(700px 420px at -10% 110%, #f3e9ff 0%, #0000 55%),
+    #faf7fe;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+  overflow-y: auto;
+  font-family: "Poppins", var(--sans, sans-serif);
+  color: #160232;
+}
+.home-screen.is-on {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s ease;
+}
+.hs-card {
+  width: min(680px, 100%);
+  margin: auto;
+  text-align: center;
+  padding: 12px 0 24px;
+}
+.hs-logo { height: 30px; width: auto; margin-bottom: 26px; }
+.hs-title {
+  margin: 0 0 10px;
+  font-family: "Sora", "Poppins", sans-serif;
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #160232;
+}
+.hs-title span { color: #892cdd; }
+.hs-sub {
+  margin: 0 auto 22px;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #5c4a75;
+}
+.hs-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 26px;
+  padding: 8px 16px;
+  background: #fff;
+  border: 1.5px solid #e7ddf5;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #4a3566;
+}
+.hs-progress .hs-ptrack {
+  width: 110px;
+  height: 6px;
+  border-radius: 999px;
+  background: #efe6f7;
+  overflow: hidden;
+}
+.hs-progress .hs-pfill { height: 100%; background: #892cdd; border-radius: 999px; }
+.hs-pick {
+  margin: 0 0 12px;
+  font-family: "Sora", "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #892cdd;
+}
+.hs-trilhas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 0 0 26px;
+}
+.hs-trilha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 12px 16px;
+  background: #fff;
+  border: 1.5px solid #e7ddf5;
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.hs-trilha:hover {
+  border-color: #892cdd;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -12px rgba(137, 44, 221, 0.35);
+}
+.hs-trilha:focus-visible { outline: 2px solid #892cdd; outline-offset: 2px; }
+.hs-trilha svg { width: 30px; height: 30px; stroke: #892cdd; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.hs-txt { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.hs-tname { font-family: "Sora", "Poppins", sans-serif; font-size: 16px; font-weight: 700; color: #160232; }
+.hs-tcount { font-size: 12px; font-weight: 600; color: #892cdd; }
+.hs-tdesc { font-size: 11.5px; line-height: 1.4; color: #6b5a83; }
+.hs-tage {
+  margin-top: 2px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #8a7b9e;
+  background: #f5eefc;
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.hs-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.hs-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 34px;
+  background: #892cdd;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  font-family: "Sora", "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 14px 30px -12px rgba(137, 44, 221, 0.55);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.hs-cta:hover { background: #7a25c9; transform: translateY(-1px); }
+.hs-cta:focus-visible { outline: 2px solid #160232; outline-offset: 2px; }
+.hs-cta svg { width: 14px; height: 14px; fill: #fff; }
+.hs-link {
+  background: none;
+  border: 0;
+  padding: 4px 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b5a83;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hs-link:hover { color: #892cdd; }
+.hs-foot { margin: 26px 0 0; font-size: 11.5px; color: #9a8cae; }
+.hs-version { position: fixed; right: 10px; bottom: 8px; font-size: 10px; color: #c3b6d4; font-family: monospace; }
+.hs-close {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid #e7ddf5;
+  background: #fff;
+  color: #6b5a83;
+  font-size: 16px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.hs-close:hover { border-color: #892cdd; color: #892cdd; }
+
+@media (max-width: 560px) {
+  .home-screen { padding: 16px; }
+  .hs-trilhas { grid-template-columns: 1fr; gap: 10px; }
+  .hs-trilha { flex-direction: row; text-align: left; align-items: center; padding: 14px 16px; gap: 12px; }
+  .hs-txt { align-items: flex-start; gap: 3px; }
+  .hs-tage { margin-top: 4px; }
+  .hs-cta { width: 100%; justify-content: center; }
+}
